@@ -1,0 +1,82 @@
+# Version Mac de RAW pour ONIRIQUE CENTRAL : VST3 et Audio Unit universels (Intel et Apple Silicon), signés localement.
+# À chaque envoi sur main. Le résultat est laissé sur la branche ci-build-macOS (RAW.vst3.zip, le fichier
+# à publier dans CENTRAL comme version Mac), et le journal de la compilation sur la branche ci-logs-macOS.
+name: Mac
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mac:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurer
+        run: cmake -B build -G Xcode > configure.log 2>&1
+
+      - name: Compiler
+        run: cmake --build build --config Release -- -quiet > build.log 2>&1
+
+      # Sans compte Apple Developer, les plugins portent une signature locale (« ad hoc ») : le minimum pour qu'un DAW
+      # les charge sur un Mac Apple Silicon.
+      - name: Signer et empaqueter
+        run: |
+          mkdir -p paquet dist
+          for NAME in RAW.vst3 RAW.component; do
+            PLUGIN="$(find build/out -type d -name "$NAME" | head -n 1)"
+            test -n "$PLUGIN"
+            lipo -info "$PLUGIN/Contents/MacOS/RAW" | tee -a build.log
+            codesign --force --deep --sign - "$PLUGIN"
+            codesign --verify --deep --strict "$PLUGIN"
+            cp -R "$PLUGIN" paquet/
+          done
+          # Format ONIRIQUE CENTRAL : « NOM.vst3.zip » avec NOM.vst3 et NOM.component à la racine.
+          (cd paquet && ditto -c -k . ../dist/RAW.vst3.zip)
+
+      # Le contrôle d'Apple, celui que Logic Pro fait passer à chaque Audio Unit. Un échec n'empêche pas de
+      # récupérer le fichier, mais il est écrit dans le journal.
+      - name: Valider l'Audio Unit (auval)
+        continue-on-error: true
+        run: |
+          mkdir -p ~/Library/Audio/Plug-Ins/Components
+          cp -R paquet/RAW.component ~/Library/Audio/Plug-Ins/Components/
+          killall -9 AudioComponentRegistrar || true
+          auval -v aumu Raw1 RaWs > validator.log 2>&1
+
+      - name: Laisser le journal sur une branche
+        if: always()
+        run: |
+          mkdir logs
+          echo "${{ job.status }} - ${{ github.sha }} - $(date -u +%FT%TZ)" > logs/status.txt
+          for f in configure.log build.log validator.log; do
+            [ -f "$f" ] || continue
+            grep -n -E "error[: ]|Error:|FAIL|\*\* BUILD|passed|failed|Architectures" "$f" | head -n 200 > "logs/${f%.log}-errors.txt" || true
+            tail -n 120 "$f" > "logs/${f%.log}-tail.txt"
+          done
+          cd logs
+          git init -q
+          git config user.name "build"
+          git config user.email "build@users.noreply.github.com"
+          git checkout -q -b ci-logs-macOS
+          git add -A
+          git commit -q -m "Journal de ${{ github.sha }}"
+          git push -q --force "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" HEAD:ci-logs-macOS
+
+      - name: Laisser le plugin sur une branche
+        if: success()
+        run: |
+          cd dist
+          echo "${{ github.sha }} - $(date -u +%FT%TZ)" > BUILD.txt
+          git init -q
+          git config user.name "build"
+          git config user.email "build@users.noreply.github.com"
+          git checkout -q -b ci-build-macOS
+          git add -A
+          git commit -q -m "Compilation de ${{ github.sha }}"
+          git push -q --force "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" HEAD:ci-build-macOS
