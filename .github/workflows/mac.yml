@@ -49,11 +49,35 @@ jobs:
           killall -9 AudioComponentRegistrar || true
           auval -v aumu Raw1 RaWs > validator.log 2>&1
 
+      # pluginval (Tracktion) fait ce qu'un DAW fait et qu'auval ne fait pas : ouvrir et fermer la fenêtre, jouer
+      # depuis un autre thread, enregistrer et relire l'état. Un plantage ici laisse sa pile d'appels dans le journal.
+      - name: Éprouver le VST3 et l'Audio Unit (pluginval)
+        continue-on-error: true
+        run: |
+          mkdir -p ~/Library/Audio/Plug-Ins/VST3
+          cp -R paquet/RAW.vst3 ~/Library/Audio/Plug-Ins/VST3/
+          curl -sSL -o pluginval.zip https://github.com/Tracktion/pluginval/releases/latest/download/pluginval_macOS.zip
+          unzip -q pluginval.zip
+          for PLUGIN in ~/Library/Audio/Plug-Ins/VST3/RAW.vst3 ~/Library/Audio/Plug-Ins/Components/RAW.component; do
+            echo "===== $PLUGIN" >> pluginval.log
+            pluginval.app/Contents/MacOS/pluginval --strictness-level 10 --validate-in-process --timeout-ms 240000 \
+              --validate "$PLUGIN" >> pluginval.log 2>&1 || echo "pluginval FAILED ($?) sur $PLUGIN" >> pluginval.log
+          done
+          # Les rapports de plantage que macOS vient d'écrire, s'il y en a.
+          sleep 15
+          for REPORT in ~/Library/Logs/DiagnosticReports/*; do
+            [ -f "$REPORT" ] || continue
+            echo "===== $REPORT" >> crash.log
+            head -c 60000 "$REPORT" >> crash.log
+          done
+
       - name: Laisser le journal sur une branche
         if: always()
         run: |
           mkdir logs
           echo "${{ job.status }} - ${{ github.sha }} - $(date -u +%FT%TZ)" > logs/status.txt
+          [ -f pluginval.log ] && cp pluginval.log logs/pluginval-full.txt
+          [ -f crash.log ] && cp crash.log logs/crash-full.txt
           for f in configure.log build.log validator.log; do
             [ -f "$f" ] || continue
             grep -n -E "error[: ]|Error:|FAIL|\*\* BUILD|passed|failed|Architectures" "$f" | head -n 200 > "logs/${f%.log}-errors.txt" || true
