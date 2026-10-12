@@ -15,6 +15,12 @@
 - Les 500 presets règlent aussi les effets.
 - Les réglages sont sauvegardés dans le projet du DAW.
 
+## Licence
+
+Le dossier `License/` est le module de licence ONIRIQUE, le même dans tous les plugins (voir
+`License/README.md`) : sans licence, bruit blanc à l'export et par salves à l'écoute ; la pastille de
+l'en-tête ouvre la page d'activation.
+
 ## Formats produits
 
 | Fichier       | Windows | Mac | DAW concernés |

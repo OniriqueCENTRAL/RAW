@@ -104,6 +104,16 @@ canvas.fog{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:
 .c4{color:color-mix(in srgb,var(--c) 40%,var(--void));text-shadow:none}
 @media (max-height:700px){#spec{display:none}.main,.col{gap:10px}.plug{gap:10px;padding-top:12px;padding-bottom:12px}}
 @media (prefers-reduced-motion:reduce){.panel.hit{animation:none}.win{transition:none;transform:none}.head::after{animation:none}}
+/* Licence ONIRIQUE : pastille dans l'en-tête, page de la licence par-dessus tout le reste */
+.lic{--c:var(--acc);white-space:nowrap}
+.lic.ok{--c:#6fdc9c}
+.licwin{position:absolute;inset:0;z-index:60;display:grid;place-items:center;padding:20px;background:rgba(8,4,5,.86)}
+.licbox{--c:var(--acc);width:min(560px,100%);padding:30px 34px;border:1px solid color-mix(in srgb,var(--ink) 22%,transparent);background:linear-gradient(#2a0a0e,#1a080a);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.licbox .lab{margin:0 0 10px;letter-spacing:.16em;text-transform:uppercase}
+.licbox h2{margin:0 0 16px;font:800 22px/1.2 var(--disp);color:var(--ink)}
+.licbox p.txt{margin:0 0 22px;color:color-mix(in srgb,var(--ink) 78%,var(--dim));font-size:13px;line-height:1.5;white-space:pre-line;-webkit-user-select:text;user-select:text}
+.licb{display:flex;flex-wrap:wrap;gap:14px;padding-left:6px}
+.licb .btn.go{background:var(--c);color:var(--void);text-shadow:none}
 </style>
 </head>
 <body>
@@ -116,6 +126,7 @@ canvas.fog{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:
  / _, _/ ___ | |/ |/ /
 /_/ |_/_/  |_|__/|__/   </pre><span class="xcredit" id="xcredit" aria-hidden="true"><b class="x-oni">ONIRIQUE</b><i>&times;</i><b class="x-abr">abrasion</b></span></h1>
 <div class="ctrl">
+<button class="btn lic" id="lic" type="button" hidden aria-haspopup="dialog"></button>
 <span class="lab">mix a/b</span>
 <button class="btn" id="mode" type="button" aria-label="Mode de mélange des oscillateurs"></button>
 <div class="pset" role="group" aria-label="Presets">
@@ -161,6 +172,19 @@ canvas.fog{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:
 </section>
 </div>
 </header>
+
+<div class="licwin" id="licwin" role="dialog" aria-modal="true" aria-labelledby="licTitle" hidden>
+<div class="licbox">
+<p class="lab" id="licEye"></p>
+<h2 id="licTitle"></h2>
+<p class="txt" id="licText"></p>
+<div class="licb">
+<button class="btn go" id="licOpen" type="button">ouvrir onirique central</button>
+<button class="btn" id="licCheck" type="button">revérifier</button>
+<button class="btn" id="licClose" type="button"></button>
+</div>
+</div>
+</div>
 
 <div class="main">
 <div class="col">
@@ -348,6 +372,7 @@ document.querySelectorAll('.sl').forEach(initSlider);
 // Réception des données du plugin (~30 fois par seconde)
 // ---------------------------------------------------------------------------
 window.__rawRecv=d=>{
+ if(d.lic)licSet(d.lic);
  if(d.p)d.p.forEach(([cid,raw])=>{const v=raw/1e6,u=UID[cid];
   if(u==='mix')M=Math.round(v);else if(u==='tgt')LT=Math.round(v);else if(u==='rule')RI=Math.round(v);
   else if(u&&u!==dragId){P[u]=v;draw(u);vis(u);if(u.startsWith('fx.'))fxDirty=true}});
@@ -589,6 +614,35 @@ try{const c=+localStorage.getItem('raw-color');if(c>0&&c<PAL.length){PI=c;setAcc
 showSec('A');refreshAll();updPresetUI();measure();sizeBg();drawLife();drawOut();bgStart();frameLoop();
 new ResizeObserver(()=>{measure();sizeBg();fogMenu.size();fogFx.size();if(RM)drawBg(0);FRAMES.forEach(frameDraw);dirty=true}).observe($('plug'));
 setTimeout(()=>{measure();frameReplay(FP)},150);
+// ---------------------------------------------------------------------------
+// Licence ONIRIQUE. Le plugin envoie [état, jours restants, compte] : 0 = pas de licence, 1 = essai, 2 = acheté.
+// ---------------------------------------------------------------------------
+let LIC=null,licSeen=false;
+const licShow=on=>{$('licwin').hidden=!on;if(on)$('licClose').focus()};
+function licDraw(){
+ if(!LIC)return;
+ const [st,days,mail]=LIC,acc=mail?' sur le compte '+mail:'',b=$('lic');
+ b.hidden=false;b.classList.toggle('ok',st===2);
+ b.textContent=st===2?'activé':st===1?'essai · '+days+' j · activation':'mode démo · activation';
+ $('licEye').textContent=st===2?'licence':st===1?'essai gratuit':'mode démo';
+ $('licTitle').textContent=st===2?'Plugin activé':st===1?days+(days>1?' jours restants':' jour restant'):'Activation requise';
+ $('licText').textContent=st===2?'RAW est activé sur cette machine'+acc+'.\n\nVos licences et vos machines activées se gèrent dans ONIRIQUE CENTRAL.'
+  :st===1?'Essai de RAW en cours'+acc+'.\n\nLe plugin fonctionne normalement en temps réel. Tout export reste remplacé par un bruit blanc tant que le plugin n\'est pas acheté.\n\nAchetez-le sur onirique.store ou dans ONIRIQUE CENTRAL : l\'achat est pris en compte ici en quelques secondes.'
+  :'RAW n\'est pas activé sur cette machine.\n\nSans licence, l\'écoute est coupée par un bruit blanc toutes les trente secondes et tout export est remplacé par ce bruit.\n\nOuvrez ONIRIQUE CENTRAL, connectez-vous à votre compte, puis activez le plugin ou lancez son essai gratuit de 7 jours. L\'activation est prise en compte ici en quelques secondes.';
+ $('licClose').textContent=st===0?'continuer en démo':'fermer';
+}
+// Appelé par __rawRecv à chaque changement d'état.
+function licSet(next){
+ const was=LIC?LIC[0]:-1;LIC=next;licDraw();
+ if(!licSeen){licSeen=true;if(next[0]===0)licShow(true)}  // non activé : la page s'ouvre d'elle-même
+ else if(next[0]===2&&was!==2)licShow(false);              // le plugin vient d'être activé
+}
+$('lic').addEventListener('click',()=>{send('K');licShow(true)});
+$('licOpen').addEventListener('click',()=>send('L'));
+$('licCheck').addEventListener('click',()=>send('K'));
+$('licClose').addEventListener('click',()=>licShow(false));
+$('licwin').addEventListener('keydown',e=>{if(e.key==='Escape')licShow(false);e.stopPropagation()});
+
 if(HOST)send('R');else demo.start();
 </script>
 </body>

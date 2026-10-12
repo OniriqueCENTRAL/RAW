@@ -10,6 +10,7 @@
 #include <string>
 #include "dsp.h"
 #include "gui.h"
+#include "License/LicenseCore.h"
 #include "params.h"
 #include "ui_html.h"
 
@@ -76,6 +77,12 @@ struct RawPlugin {
     double scale = 1;
     uint32_t uiW = BASE_W, uiH = BASE_H;
     bool userSized = false;
+
+    // Licence ONIRIQUE (acheté, essai, démo) : voir License/LicenseCore.h
+    onirique::license::core::Guard license{"onirique-x-abrasion-raw"};
+    std::atomic<bool> offline{false}; // le DAW exporte (rendu hors temps réel)
+    double rate = 48000;
+    int licTick = 0, licSent = -1;    // interface : dernier état de licence envoyé à la page
 
     explicit RawPlugin(const clap_host_t* h) : host(h) {
         for (uint32_t i = 0; i < kNumParams; ++i) { vals[i].store(kParams[i].def); lastSent[i] = std::nan(""); }
@@ -230,7 +237,10 @@ struct RawPlugin {
         switch (c) {
             case 'R': // la page vient de se charger : tout renvoyer
                 for (auto& x : lastSent) x = std::nan("");
+                licSent = -1;
                 break;
+            case 'L': onirique::license::core::openCentral(); return; // bouton « ouvrir onirique central »
+            case 'K': license.refresh(); licSent = -1; return;         // bouton « revérifier »
             case 'b':
             case 'e':
                 if (parseNumber(s, a) && indexOf(uint32_t(a)) >= 0)
@@ -296,7 +306,22 @@ struct RawPlugin {
             js += b;
             first = false;
         }
-        js += "]})";
+        js += "]";
+        // Licence : relue une fois par seconde, envoyée à la page quand elle change (état, jours restants, compte).
+        if (++licTick >= 30 || licSent < 0) {
+            licTick = 0;
+            const auto st = license.status();
+            const int code = int(st.state) * 100000 + st.daysLeft();
+            if (code != licSent) {
+                licSent = code;
+                std::snprintf(b, sizeof(b), ",\"lic\":[%d,%d,\"", int(st.state), st.daysLeft());
+                js += b;
+                for (const char c : st.email) // l'adresse passe dans du JavaScript : rien d'autre que ses caractères sûrs
+                    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '@' || c == '.' || c == '_' || c == '-' || c == '+') js += c;
+                js += "\"]";
+            }
+        }
+        js += "})";
         ui->eval(js);
     }
 };
@@ -524,6 +549,14 @@ bool guiHide(const clap_plugin_t* p) {
     if (me->ui) me->ui->show(false);
     return me->ui != nullptr;
 }
+// --- rendu : le DAW prévient quand il exporte, la licence décide alors du son ---
+bool renderHardRealtime(const clap_plugin_t*) { return false; }
+bool renderSet(const clap_plugin_t* p, clap_plugin_render_mode mode) {
+    self(p)->offline.store(mode == CLAP_RENDER_OFFLINE);
+    return true;
+}
+const clap_plugin_render_t kRenderExt = {renderHardRealtime, renderSet};
+
 const clap_plugin_gui_t kGuiExt = {guiSupported, guiPreferred, guiCreate, guiDestroy, guiSetScale,
                                    guiGetSize, guiCanResize, guiResizeHints, guiAdjust, guiSetSize,
                                    guiSetParent, guiSetTransient, guiSuggestTitle, guiShow, guiHide};
@@ -540,6 +573,8 @@ bool pActivate(const clap_plugin_t* p, double sr, uint32_t, uint32_t) {
     auto* me = self(p);
     bank(); // construit la banque wavetable hors du thread audio
     me->eng.init(sr);
+    me->rate = sr;
+    me->license.refresh(); // les DAW repassent par ici juste avant un export
     me->snap(me->cur);
     if (me->hostLatency) me->hostLatency->changed(me->host); // la latence dépend de la fréquence
     return true;
@@ -584,9 +619,12 @@ clap_process_status pProcess(const clap_plugin_t* p, const clap_process_t* pr) {
 
     me->feedScope(L, R, n);
     me->flushEnds(pr->out_events, n);
+    // Sans licence : bruit blanc à l'export, et par salves à l'écoute (voir License/DemoNoise.h)
+    float* out[2] = {L, R};
+    const bool noisy = me->license.process(out, 2, int(n), me->rate, me->offline.load(std::memory_order_relaxed));
     // En veille si rien ne joue, que la queue des effets (delay, reverb) est éteinte
     // et que l'interface est fermée. Le DAW nous réveille à la prochaine note.
-    if (!me->eng.anyActive() && !me->guiOpen.load() && me->peak.load() < 1e-5f) return CLAP_PROCESS_SLEEP;
+    if (!noisy && !me->eng.anyActive() && !me->guiOpen.load() && me->peak.load() < 1e-5f) return CLAP_PROCESS_SLEEP;
     return CLAP_PROCESS_CONTINUE;
 }
 
@@ -596,6 +634,7 @@ const void* pGetExt(const clap_plugin_t*, const char* id) {
     if (!std::strcmp(id, CLAP_EXT_AUDIO_PORTS)) return &kAudioPorts;
     if (!std::strcmp(id, CLAP_EXT_NOTE_PORTS)) return &kNotePorts;
     if (!std::strcmp(id, CLAP_EXT_LATENCY)) return &kLatencyExt;
+    if (!std::strcmp(id, CLAP_EXT_RENDER)) return &kRenderExt;
     if (!std::strcmp(id, CLAP_EXT_GUI) && kGuiApi) return &kGuiExt;
     return nullptr;
 }

@@ -54,6 +54,10 @@ else()
     target_compile_options(raw-impl PRIVATE -Wall -Wextra)
 endif()
 
+# Licence ONIRIQUE : le dossier License/ est le même dans tous les plugins (voir License/README.md)
+include(License/OniriqueLicense.cmake)
+onirique_add_license_core(raw-impl)
+
 # Fenêtre d'interface selon le système
 if(WIN32)
     FetchContent_Declare(webview2
