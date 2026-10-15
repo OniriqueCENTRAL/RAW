@@ -307,18 +307,19 @@ struct RawPlugin {
             first = false;
         }
         js += "]";
-        // Licence : relue une fois par seconde, envoyée à la page quand elle change (état, jours restants, compte).
+        // Licence : relue une fois par seconde, envoyée à la page quand elle change (état, jours restants, compte,
+        // et 1 quand une licence authentique attend d'être renouvelée par ONIRIQUE CENTRAL).
         if (++licTick >= 30 || licSent < 0) {
             licTick = 0;
             const auto st = license.status();
-            const int code = int(st.state) * 100000 + st.daysLeft();
+            const int code = int(st.state) * 100000 + st.daysLeft() + (st.renewal ? 50000 : 0);
             if (code != licSent) {
                 licSent = code;
                 std::snprintf(b, sizeof(b), ",\"lic\":[%d,%d,\"", int(st.state), st.daysLeft());
                 js += b;
                 for (const char c : st.email) // l'adresse passe dans du JavaScript : rien d'autre que ses caractères sûrs
                     if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '@' || c == '.' || c == '_' || c == '-' || c == '+') js += c;
-                js += "\"]";
+                js += st.renewal ? "\",1]" : "\",0]";
             }
         }
         js += "})";

@@ -615,17 +615,19 @@ showSec('A');refreshAll();updPresetUI();measure();sizeBg();drawLife();drawOut();
 new ResizeObserver(()=>{measure();sizeBg();fogMenu.size();fogFx.size();if(RM)drawBg(0);FRAMES.forEach(frameDraw);dirty=true}).observe($('plug'));
 setTimeout(()=>{measure();frameReplay(FP)},150);
 // ---------------------------------------------------------------------------
-// Licence ONIRIQUE. Le plugin envoie [état, jours restants, compte] : 0 = pas de licence, 1 = essai, 2 = acheté.
+// Licence ONIRIQUE. Le plugin envoie [état, jours restants, compte, à renouveler] : 0 = pas de licence, 1 = essai, 2 = acheté ;
+// à renouveler (1) : la licence est authentique mais n'a pas été renouvelée par ONIRIQUE CENTRAL depuis plus de 90 jours.
 // ---------------------------------------------------------------------------
 let LIC=null,licSeen=false;
 const licShow=on=>{$('licwin').hidden=!on;if(on)$('licClose').focus()};
 function licDraw(){
  if(!LIC)return;
- const [st,days,mail]=LIC,acc=mail?' sur le compte '+mail:'',b=$('lic');
+ const [st,days,mail,renew]=LIC,acc=mail?' sur le compte '+mail:'',b=$('lic'),old=st===0&&renew===1;
  b.hidden=false;b.classList.toggle('ok',st===2);
- b.textContent=st===2?'activé':st===1?'essai · '+days+' j · activation':'mode démo · activation';
- $('licEye').textContent=st===2?'licence':st===1?'essai gratuit':'mode démo';
- $('licTitle').textContent=st===2?'Plugin activé':st===1?days+(days>1?' jours restants':' jour restant'):'Activation requise';
+ b.textContent=st===2?'activé':st===1?'essai · '+days+' j · activation':old?'à renouveler':'mode démo · activation';
+ $('licEye').textContent=st===2?'licence':st===1?'essai gratuit':old?'licence à renouveler':'mode démo';
+ $('licTitle').textContent=st===2?'Plugin activé':st===1?days+(days>1?' jours restants':' jour restant'):old?'Ouvrez ONIRIQUE CENTRAL':'Activation requise';
+ if(old){$('licText').textContent='RAW est bien à vous'+acc+', mais sa licence n\'a pas été renouvelée depuis plus de 90 jours.\n\nOuvrez ONIRIQUE CENTRAL avec une connexion Internet : il renouvelle vos licences en quelques secondes, et le plugin repart aussitôt. Hors ligne, une licence reste valable 90 jours après chaque renouvellement.';$('licClose').textContent='fermer';return}
  $('licText').textContent=st===2?'RAW est activé sur cette machine'+acc+'.\n\nVos licences et vos machines activées se gèrent dans ONIRIQUE CENTRAL.'
   :st===1?'Essai de RAW en cours'+acc+'.\n\nLe plugin fonctionne normalement en temps réel. Tout export reste remplacé par un bruit blanc tant que le plugin n\'est pas acheté.\n\nAchetez-le sur onirique.store ou dans ONIRIQUE CENTRAL : l\'achat est pris en compte ici en quelques secondes.'
   :'RAW n\'est pas activé sur cette machine.\n\nSans licence, l\'écoute est coupée par un bruit blanc toutes les trente secondes et tout export est remplacé par ce bruit.\n\nOuvrez ONIRIQUE CENTRAL, connectez-vous à votre compte, puis activez le plugin ou lancez son essai gratuit de 7 jours. L\'activation est prise en compte ici en quelques secondes.';
