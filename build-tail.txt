@@ -1,0 +1,100 @@
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:57:3: warning: comparison of integers of different signs: 'u32' (aka 'unsigned long') and 'int' [-Wsign-compare]
+  FOR(i,n) d |= x[i]^y[i];
+  ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:410:18: warning: implicit conversion loses integer precision: 'i64' (aka 'long long') to 'int' [-Wshorten-64-to-32]
+    sel25519(a,b,r);
+    ~~~~~~~~     ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:411:18: warning: implicit conversion loses integer precision: 'i64' (aka 'long long') to 'int' [-Wshorten-64-to-32]
+    sel25519(c,d,r);
+    ~~~~~~~~     ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:430:18: warning: implicit conversion loses integer precision: 'i64' (aka 'long long') to 'int' [-Wshorten-64-to-32]
+    sel25519(a,b,r);
+    ~~~~~~~~     ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:431:18: warning: implicit conversion loses integer precision: 'i64' (aka 'long long') to 'int' [-Wshorten-64-to-32]
+    sel25519(c,d,r);
+    ~~~~~~~~     ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:548:10: warning: implicit conversion loses integer precision: 'u64' (aka 'unsigned long long') to 'int' [-Wshorten-64-to-32]
+  return n;
+  ~~~~~~ ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:723:3: warning: comparison of integers of different signs: 'i64' (aka 'long long') and 'u64' (aka 'unsigned long long') [-Wsign-compare]
+  FOR(i,n) sm[64 + i] = m[i];
+  ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:790:3: warning: comparison of integers of different signs: 'int' and 'u64' (aka 'unsigned long long') [-Wsign-compare]
+  FOR(i,n) m[i] = sm[i];
+  ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:802:5: warning: comparison of integers of different signs: 'int' and 'u64' (aka 'unsigned long long') [-Wsign-compare]
+    FOR(i,n) m[i] = 0;
+    ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:806:3: warning: comparison of integers of different signs: 'int' and 'u64' (aka 'unsigned long long') [-Wsign-compare]
+  FOR(i,n) m[i] = sm[i + 64];
+  ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+10 warnings generated.
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:57:3: warning: comparison of integers of different signs: 'u32' (aka 'unsigned long') and 'int' [-Wsign-compare]
+  FOR(i,n) d |= x[i]^y[i];
+  ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:410:18: warning: implicit conversion loses integer precision: 'i64' (aka 'long long') to 'int' [-Wshorten-64-to-32]
+    sel25519(a,b,r);
+    ~~~~~~~~     ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:411:18: warning: implicit conversion loses integer precision: 'i64' (aka 'long long') to 'int' [-Wshorten-64-to-32]
+    sel25519(c,d,r);
+    ~~~~~~~~     ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:430:18: warning: implicit conversion loses integer precision: 'i64' (aka 'long long') to 'int' [-Wshorten-64-to-32]
+    sel25519(a,b,r);
+    ~~~~~~~~     ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:431:18: warning: implicit conversion loses integer precision: 'i64' (aka 'long long') to 'int' [-Wshorten-64-to-32]
+    sel25519(c,d,r);
+    ~~~~~~~~     ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:548:10: warning: implicit conversion loses integer precision: 'u64' (aka 'unsigned long long') to 'int' [-Wshorten-64-to-32]
+  return n;
+  ~~~~~~ ^
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:723:3: warning: comparison of integers of different signs: 'i64' (aka 'long long') and 'u64' (aka 'unsigned long long') [-Wsign-compare]
+  FOR(i,n) sm[64 + i] = m[i];
+  ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:790:3: warning: comparison of integers of different signs: 'int' and 'u64' (aka 'unsigned long long') [-Wsign-compare]
+  FOR(i,n) m[i] = sm[i];
+  ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:802:5: warning: comparison of integers of different signs: 'int' and 'u64' (aka 'unsigned long long') [-Wsign-compare]
+    FOR(i,n) m[i] = 0;
+    ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:806:3: warning: comparison of integers of different signs: 'int' and 'u64' (aka 'unsigned long long') [-Wsign-compare]
+  FOR(i,n) m[i] = sm[i + 64];
+  ^   ~ ~
+/Users/runner/work/RAW/RAW/License/tweetnacl.c:2:31: note: expanded from macro 'FOR'
+#define FOR(i,n) for (i = 0;i < n;++i)
+                            ~ ^ ~
+10 warnings generated.
+/Users/runner/work/RAW/RAW/build/raw-synth.xcodeproj: warning: User-supplied CFBundleIdentifier value 'com.raw.synth.vst3' in the Info.plist must be the same as the PRODUCT_BUNDLE_IDENTIFIER build setting value ''. (in target 'raw_vst3' from project 'raw-synth')
+/Users/runner/work/RAW/RAW/build/raw-synth.xcodeproj: warning: User-supplied CFBundleIdentifier value 'com.raw.synth.clap' in the Info.plist must be the same as the PRODUCT_BUNDLE_IDENTIFIER build setting value ''. (in target 'raw_clap' from project 'raw-synth')
+note: Run script build phase 'CMake PreBuild Rules' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'raw_auv2' from project 'raw-synth')
+note: Run script build phase 'Generate CMakeFiles/ZERO_CHECK' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'ZERO_CHECK' from project 'raw-synth')
+note: Run script build phase 'CMake PostBuild Rules' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'raw_auv2-build-helper' from project 'raw-synth')
+note: Run script build phase 'Generate CMakeFiles/ALL_BUILD' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'ALL_BUILD' from project 'raw-synth')
+Architectures in the fat file: build/out/Release/RAW.vst3/Contents/MacOS/RAW are: x86_64 arm64 
+Architectures in the fat file: build/out/Release/RAW.component/Contents/MacOS/RAW are: x86_64 arm64 

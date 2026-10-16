@@ -1,0 +1,2 @@
+99:Architectures in the fat file: build/out/Release/RAW.vst3/Contents/MacOS/RAW are: x86_64 arm64 
+100:Architectures in the fat file: build/out/Release/RAW.component/Contents/MacOS/RAW are: x86_64 arm64 

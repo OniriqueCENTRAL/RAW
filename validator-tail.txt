@@ -1,0 +1,16 @@
+
+    AU Validation Tool
+    Version: 1.10.0 
+    Copyright 2003-2019, Apple Inc. All Rights Reserved.
+    Specify -h (-help) for command options
+
+--------------------------------------------------
+VALIDATING AUDIO UNIT: 'aumu' - 'Raw1' - 'RaWs'
+--------------------------------------------------
+ERROR: Cannot get Component's Name strings
+ERROR: Error from retrieving Component Version: -50
+
+* * FAIL
+--------------------------------------------------
+TESTING OPEN TIMES:
+FATAL ERROR: didn't find the component
