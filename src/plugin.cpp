@@ -5,7 +5,10 @@
 #include <atomic>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <filesystem>
+#include <fstream>
 #include <memory>
 #include <string>
 #include "dsp.h"
@@ -77,6 +80,8 @@ struct RawPlugin {
     double scale = 1;
     uint32_t uiW = BASE_W, uiH = BASE_H;
     bool userSized = false;
+    // taille choisie (sans l'échelle de l'écran) : celle du projet, sinon la dernière sur cet ordinateur ; 0 = aucune
+    uint32_t keptW = 0, keptH = 0;
 
     // Licence ONIRIQUE (acheté, essai, démo) : voir License/LicenseCore.h
     onirique::license::core::Guard license{"onirique-x-abrasion-raw"};
@@ -402,6 +407,45 @@ bool readAll(const clap_istream_t* s, void* buf, uint64_t size) {
     return true;
 }
 constexpr uint32_t kMagic = 0x52415731; // "RAW1"
+constexpr uint32_t kSizeMagic = 0x5a495331; // "SIZ1" : la taille de la fenêtre, après les réglages
+
+// La dernière taille de fenêtre choisie sur cet ordinateur, pour les prochaines ouvertures (nouveaux projets compris).
+std::filesystem::path sizeFile() {
+#if defined(_WIN32)
+    const wchar_t* base = _wgetenv(L"APPDATA");
+    return base ? std::filesystem::path(base) / L"Onirique" / L"ONIRIQUE RAW.size" : std::filesystem::path();
+#else
+    const char* home = std::getenv("HOME");
+    return home ? std::filesystem::path(home) / "Library/Application Support/Onirique/ONIRIQUE RAW.size" : std::filesystem::path();
+#endif
+}
+bool validSize(uint32_t w, uint32_t h) {
+    return w >= uint32_t(RawPlugin::MIN_W) && h >= uint32_t(RawPlugin::MIN_H) && w <= 8000 && h <= 6000;
+}
+void loadKeptSize(RawPlugin* me) {
+    if (me->keptW) return; // celle du projet passe avant
+    const auto f = sizeFile();
+    std::ifstream in(f);
+    uint32_t w = 0, h = 0;
+    if (!f.empty() && (in >> w >> h) && validSize(w, h)) { me->keptW = w; me->keptH = h; }
+}
+void saveKeptSize(RawPlugin* me) {
+    if (!me->userSized || me->scale <= 0) return;
+    const uint32_t w = uint32_t(std::lround(me->uiW / me->scale)), h = uint32_t(std::lround(me->uiH / me->scale));
+    if (!validSize(w, h)) return;
+    me->keptW = w; me->keptH = h;
+    const auto f = sizeFile();
+    if (f.empty()) return;
+    std::error_code ec;
+    std::filesystem::create_directories(f.parent_path(), ec);
+    std::ofstream(f) << w << ' ' << h << '\n';
+}
+// taille de départ à l'échelle de l'écran : la taille gardée, sinon celle dessinée
+void applyKeptSize(RawPlugin* me) {
+    if (me->userSized) return;
+    me->uiW = uint32_t(std::lround((me->keptW ? me->keptW : RawPlugin::BASE_W) * me->scale));
+    me->uiH = uint32_t(std::lround((me->keptH ? me->keptH : RawPlugin::BASE_H) * me->scale));
+}
 
 bool stateSave(const clap_plugin_t* p, const clap_ostream_t* s) {
     auto* me = self(p);
@@ -412,6 +456,10 @@ bool stateSave(const clap_plugin_t* p, const clap_ostream_t* s) {
         const double v = me->vals[i].load();
         if (!writeAll(s, &id, 4) || !writeAll(s, &v, 8)) return false;
     }
+    // la taille de la fenêtre, gardée avec le projet (une ancienne version de RAW s'arrête avant et l'ignore)
+    const uint32_t w = me->userSized && me->scale > 0 ? uint32_t(std::lround(me->uiW / me->scale)) : me->keptW;
+    const uint32_t h = me->userSized && me->scale > 0 ? uint32_t(std::lround(me->uiH / me->scale)) : me->keptH;
+    if (validSize(w, h) && (!writeAll(s, &kSizeMagic, 4) || !writeAll(s, &w, 4) || !writeAll(s, &h, 4))) return false;
     return true;
 }
 
@@ -425,6 +473,12 @@ bool stateLoad(const clap_plugin_t* p, const clap_istream_t* s) {
         if (!readAll(s, &id, 4) || !readAll(s, &v, 8)) return false;
         const int ix = indexOf(id);
         if (ix >= 0) me->vals[ix].store(clampParam(ix, v));
+    }
+    // un projet enregistré par une ancienne version n'a pas de taille : celle de l'ordinateur servira
+    uint32_t sm = 0, w = 0, h = 0;
+    if (readAll(s, &sm, 4) && sm == kSizeMagic && readAll(s, &w, 4) && readAll(s, &h, 4) && validSize(w, h)) {
+        me->keptW = w; me->keptH = h;
+        applyKeptSize(me);
     }
     // Pas d'accès à me->cur ici : le thread audio le relit au début de chaque bloc.
     if (me->hostParams) me->hostParams->rescan(me->host, CLAP_PARAM_RESCAN_VALUES);
@@ -476,10 +530,13 @@ bool guiCreate(const clap_plugin_t* p, const char* api, bool floating) {
     if (!guiSupported(p, api, floating)) return false;
     auto* me = self(p);
     me->ui = WebUi::create();
+    loadKeptSize(me);
+    applyKeptSize(me);
     return me->ui != nullptr;
 }
 void guiDestroy(const clap_plugin_t* p) {
     auto* me = self(p);
+    saveKeptSize(me);
     me->guiOpen.store(false);
     me->ui.reset();
 }
@@ -487,10 +544,7 @@ bool guiSetScale(const clap_plugin_t* p, double scale) {
 #if defined(_WIN32)
     auto* me = self(p);
     me->scale = scale > 0 ? scale : 1;
-    if (!me->userSized) {
-        me->uiW = uint32_t(std::lround(RawPlugin::BASE_W * me->scale));
-        me->uiH = uint32_t(std::lround(RawPlugin::BASE_H * me->scale));
-    }
+    applyKeptSize(me);
     return true;
 #else
     (void)p; (void)scale;
