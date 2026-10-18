@@ -1,0 +1,120 @@
+
+CreateBuildDirectory /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/EagerLinkingTBDs/Debug
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/audiounitsdk-populate.xcodeproj
+    builtin-create-build-directory /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/EagerLinkingTBDs/Debug
+
+note: Run script build phase 'Generate CMakeFiles/ZERO_CHECK' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'ZERO_CHECK' from project 'audiounitsdk-populate')
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/ZERO_CHECK.build/Script-49130A129E46C770511C404A.sh (in target 'ZERO_CHECK' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/ZERO_CHECK.build/Script-49130A129E46C770511C404A.sh
+
+PhaseScriptExecution Generate\ CMakeFiles/ZERO_CHECK /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/ZERO_CHECK.build/Script-49130A129E46C770511C404A.sh (in target 'ZERO_CHECK' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/ZERO_CHECK.build/Script-49130A129E46C770511C404A.sh
+make: `/Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/CMakeFiles/cmake.check_cache' is up to date.
+
+note: Run script build phase 'Generate audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-update' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+note: Run script build phase 'Generate audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-patch' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+note: Run script build phase 'Generate CMakeFiles/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-complete' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+note: Run script build phase 'Generate CMakeFiles/audiounitsdk-populate' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-6D2E484230679CB7FD152072.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-6D2E484230679CB7FD152072.sh
+
+PhaseScriptExecution Generate\ audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-mkdir /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-6D2E484230679CB7FD152072.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-6D2E484230679CB7FD152072.sh
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-EA9483435DD35F08F7DD002E.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-EA9483435DD35F08F7DD002E.sh
+
+PhaseScriptExecution Generate\ audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-download /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-EA9483435DD35F08F7DD002E.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-EA9483435DD35F08F7DD002E.sh
+Cloning into 'AudioUnitSDK'...
+HEAD is now at 53a9a20 AudioUnitSDK - version 1.1.0
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-7539331488D4AF8D9BDB581E.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-7539331488D4AF8D9BDB581E.sh
+
+PhaseScriptExecution Generate\ audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-update /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-7539331488D4AF8D9BDB581E.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-7539331488D4AF8D9BDB581E.sh
+-- Already at requested tag: AudioUnitSDK-1.1.0
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-136BD4A80044F3DAFB2C9975.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-136BD4A80044F3DAFB2C9975.sh
+
+PhaseScriptExecution Generate\ audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-patch /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-136BD4A80044F3DAFB2C9975.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-136BD4A80044F3DAFB2C9975.sh
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-96E2B33A4A46DDB9F3FDDE57.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-96E2B33A4A46DDB9F3FDDE57.sh
+
+PhaseScriptExecution Generate\ audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-configure /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-96E2B33A4A46DDB9F3FDDE57.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-96E2B33A4A46DDB9F3FDDE57.sh
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-26F3808B3840C4D0E91195A1.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-26F3808B3840C4D0E91195A1.sh
+
+PhaseScriptExecution Generate\ audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-build /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-26F3808B3840C4D0E91195A1.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-26F3808B3840C4D0E91195A1.sh
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-9C686E4D59E92B07381F3098.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-9C686E4D59E92B07381F3098.sh
+
+PhaseScriptExecution Generate\ audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-install /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-9C686E4D59E92B07381F3098.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-9C686E4D59E92B07381F3098.sh
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-6F75F4CFCC9BE8F33EFC7B28.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-6F75F4CFCC9BE8F33EFC7B28.sh
+
+PhaseScriptExecution Generate\ audiounitsdk-populate-prefix/src/audiounitsdk-populate-stamp/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-test /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-6F75F4CFCC9BE8F33EFC7B28.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-6F75F4CFCC9BE8F33EFC7B28.sh
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-ADE666E3837614E61F630BD4.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-ADE666E3837614E61F630BD4.sh
+
+PhaseScriptExecution Generate\ CMakeFiles/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/audiounitsdk-populate-complete /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-ADE666E3837614E61F630BD4.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-ADE666E3837614E61F630BD4.sh
+
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-02AD8C30BEBA08B77676920F.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-02AD8C30BEBA08B77676920F.sh
+
+PhaseScriptExecution Generate\ CMakeFiles/audiounitsdk-populate /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-02AD8C30BEBA08B77676920F.sh (in target 'audiounitsdk-populate' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/audiounitsdk-populate.build/Script-02AD8C30BEBA08B77676920F.sh
+
+note: Run script build phase 'Generate CMakeFiles/ALL_BUILD' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'ALL_BUILD' from project 'audiounitsdk-populate')
+WriteAuxiliaryFile /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/ALL_BUILD.build/Script-C3BC0F3CB68DC5212FB66E9A.sh (in target 'ALL_BUILD' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    write-file /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/ALL_BUILD.build/Script-C3BC0F3CB68DC5212FB66E9A.sh
+
+PhaseScriptExecution Generate\ CMakeFiles/ALL_BUILD /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/ALL_BUILD.build/Script-C3BC0F3CB68DC5212FB66E9A.sh (in target 'ALL_BUILD' from project 'audiounitsdk-populate')
+    cd /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild
+    /bin/sh -c /Users/runner/work/RAW/RAW/build/_deps/audiounitsdk-subbuild/build/audiounitsdk-populate.build/Debug/ALL_BUILD.build/Script-C3BC0F3CB68DC5212FB66E9A.sh
+Build all projects
+
+** BUILD SUCCEEDED **
+
+-- clap-wrapper: configuring auv2 sdk from /Users/runner/work/RAW/RAW/build/cpm/AudioUnitSDK
+-- clap-wrapper: using cmake configuration for auv2
+-- clap-wrapper: Adding AUV2 Wrapper to target raw_auv2 generating 'RAW.component'
+-- Configuring done (38.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/runner/work/RAW/RAW/build

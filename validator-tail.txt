@@ -1,0 +1,120 @@
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:272
+Name: fx eq mid
+Parameter Type: Generic
+Values: Minimum = -12 dB, Default = +0 dB, Maximum = +12 dB
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:273
+Name: fx eq high
+Parameter Type: Generic
+Values: Minimum = -12 dB, Default = +0 dB, Maximum = +12 dB
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:280
+Name: fx filter on
+Parameter Type: Boolean
+Values: Minimum = off, Default = off, Maximum = on
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:281
+Name: fx filter cutoff
+Parameter Type: Generic
+Values: Minimum = 80 Hz, Default = 1.6 kHz, Maximum = 12.0 kHz
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:282
+Name: fx filter reso
+Parameter Type: Generic
+Values: Minimum = Q 0.5, Default = Q 1.2, Maximum = Q 18.5
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:283
+Name: fx filter type
+Parameter Type: Indexed
+Values: Minimum = lp, Default = lp, Maximum = hp
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:290
+Name: fx reverb on
+Parameter Type: Boolean
+Values: Minimum = off, Default = off, Maximum = on
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:291
+Name: fx reverb size
+Parameter Type: Generic
+Values: Minimum = 0.4 s, Default = 2.2 s, Maximum = 4.0 s
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:292
+Name: fx reverb damp
+Parameter Type: Generic
+Values: Minimum = 16.0 kHz, Default = 10.2 kHz, Maximum = 1.5 kHz
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:293
+Name: fx reverb mix
+Parameter Type: Generic
+Values: Minimum = 0%, Default = 30%, Maximum = 100%
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Testing that parameters retain value across reset and initialization
+  PASS
+
+* * PASS
+--------------------------------------------------
+FORMAT TESTS:
+
+Reported Channel Capabilities (explicit):
+      [0, 2]  
+
+No Input, Output Chans:
+0-1   0-2   0-4   0-5   0-6   0-7   0-8
+      X                                   
+
+* * PASS
+--------------------------------------------------
+RENDER TESTS:
+
+Output Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Render Test at 512 frames
+Slicing Render Test at 64 frames
+  PASS
+
+
+Render Test at 64 frames, sample rate: 22050 Hz
+Render Test at 137 frames, sample rate: 96000 Hz
+Render Test at 4096 frames, sample rate: 48000 Hz
+Render Test at 4096 frames, sample rate: 192000 Hz
+Render Test at 4096 frames, sample rate: 11025 Hz
+Render Test at 512 frames, sample rate: 44100 Hz
+  PASS
+
+Bad Max Frames - Render should fail
+  PASS
+
+Checking parameter setting
+Using AudioUnitSetParameter
+Using AudioUnitScheduleParameter
+  PASS
+
+Test MIDI
+  PASS
+
+* * PASS
+--------------------------------------------------
+AU VALIDATION SUCCEEDED.
+--------------------------------------------------
